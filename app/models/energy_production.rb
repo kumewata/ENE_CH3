@@ -1,4 +1,4 @@
 class EnergyProduction < ApplicationRecord
-  belong_to :house
-  validates :House, presence: true
+  belongs_to :house
+  validates :house_id, presence: true
 end
