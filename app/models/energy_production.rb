@@ -1,0 +1,2 @@
+class EnergyProduction < ApplicationRecord
+end

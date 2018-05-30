@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  root 'application#hello'
+  root 'energy_productions#index'
+  get 'energy_productions/index'
 end
