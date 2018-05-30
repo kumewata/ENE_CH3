@@ -10,20 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180530015457) do
+ActiveRecord::Schema.define(version: 20180530023255) do
 
   create_table "energy_productions", force: :cascade do |t|
-    t.integer "Label"
-    t.integer "House"
-    t.integer "Year"
-    t.integer "Month"
-    t.float "Temperature"
-    t.float "Daylight"
+    t.integer "label", null: false
+    t.integer "house_id", null: false
+    t.integer "year", null: false
+    t.integer "month", null: false
+    t.float "temperature", null: false
+    t.float "daylight", null: false
+    t.integer "energy_production", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["Daylight"], name: "index_energy_productions_on_Daylight"
-    t.index ["Temperature"], name: "index_energy_productions_on_Temperature"
-    t.index ["Year", "Month"], name: "index_energy_productions_on_Year_and_Month"
+    t.index ["daylight"], name: "index_energy_productions_on_Daylight"
+    t.index ["house_id"], name: "index_energy_productions_on_house_id"
+    t.index ["temperature"], name: "index_energy_productions_on_Temperature"
+    t.index ["year", "month"], name: "index_energy_productions_on_Year_and_Month"
+  end
+
+  create_table "houses", force: :cascade do |t|
+    t.string "firstname", null: false
+    t.string "lastname", null: false
+    t.string "city", null: false
+    t.integer "num_of_people", null: false
+    t.boolean "has_child", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
