@@ -22,10 +22,10 @@ ActiveRecord::Schema.define(version: 20180530023255) do
     t.integer "energy_production", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["daylight"], name: "index_energy_productions_on_Daylight"
+    t.index ["daylight"], name: "index_energy_productions_on_daylight"
     t.index ["house_id"], name: "index_energy_productions_on_house_id"
-    t.index ["temperature"], name: "index_energy_productions_on_Temperature"
-    t.index ["year", "month"], name: "index_energy_productions_on_Year_and_Month"
+    t.index ["temperature"], name: "index_energy_productions_on_temperature"
+    t.index ["year", "month"], name: "index_energy_productions_on_year_and_month"
   end
 
   create_table "houses", force: :cascade do |t|

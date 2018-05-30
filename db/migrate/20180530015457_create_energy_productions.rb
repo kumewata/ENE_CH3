@@ -11,8 +11,8 @@ class CreateEnergyProductions < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-    add_index :energy_productions, :Temperature
-    add_index :energy_productions, :Daylight
-    add_index :energy_productions, [:Year, :Month]
+    add_index :energy_productions, :temperature
+    add_index :energy_productions, :daylight
+    add_index :energy_productions, [:year, :month]
   end
 end
