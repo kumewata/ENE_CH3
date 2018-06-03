@@ -62,6 +62,8 @@ class EnergyProductionsController < ApplicationController
     # 棒グラフ用の(x, y)データ
     gon.city_list_t = count_result.keys # 横軸: city
     gon.house_count_t = count_result.values # 横軸: city
+    @city_list_check = count_result.keys # 横軸: city
+    @house_count_check = count_result.values # 横軸: city
     
     
     # debugger
