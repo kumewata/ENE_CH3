@@ -44,7 +44,7 @@ class EnergyProductionsController < ApplicationController
     labels.each do |l|
       label_list << l.label
     end
-    
+    label_list = label_list.sort
     gon.label_list_t = self.class.label_month_converter(@e_p, label_list)
     @label_list_check = label_list
     
