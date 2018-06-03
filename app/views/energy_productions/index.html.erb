@@ -1,12 +1,5 @@
 <h1>EnergyDataSimulationChallenge#3</h1>
 <%= debug(params) if Rails.env.development? %>
-<% @data_line.each do |k, v| %>
-  <%= k %>
-  <% v.each do |v2| %>
-    <%= v2 %>
-  <% end %>
-<% end %>
-
 
 <canvas id="bar_chart" width="450" height="200"></canvas>
 <canvas id="line_chart" width="450" height="200"></canvas>

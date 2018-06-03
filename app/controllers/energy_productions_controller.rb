@@ -33,22 +33,24 @@ class EnergyProductionsController < ApplicationController
       
       eph_h = energy_production_house.where(houses: { city: city })
       
-      @check = eph_h.group("label").average("energy_production")
-      # production = []
-      # label_list.each do |label|
+      
+      production = []
+      label_list.each do |label|
         
-      #   eph_h_l = eph_h.where(label: label)
-      #   ep_list = []
-      #   eph_h_l.each{ |e| ep_list << e.energy_production }
+        eph_h_l = eph_h.where(label: label)
+        ep_list = []
+        eph_h_l.each{ |e| ep_list << e.energy_production }
         
-      #   # calculate average of energy production
-      #   ep_ave = ave_calc(ep_list) 
-      #   production << ep_ave
-      # end
-      # pass data
-      # @data_line[city] = production
-      # @data_line[city] = @check.values.map(&:round(1))
-      @data_line[city] = @check.values.map{ |v| v.round(1)}
+        # calculate average of energy production
+        ep_ave = ave_calc(ep_list) 
+        production << ep_ave
+      end
+      #pass data
+      @data_line[city] = production
+      
+      # パフォーマンス的に上よりこっちの方が良いが、Heroku環境でうまく行かず途中
+      # production = eph_h.group("label").average("energy_production")
+      # @data_line[city] = production.values.map{ |v| v.round(1)}
     end
     # debugger
     
