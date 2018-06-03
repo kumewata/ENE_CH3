@@ -47,7 +47,8 @@ class EnergyProductionsController < ApplicationController
       # end
       # pass data
       # @data_line[city] = production
-      @data_line[city] = @check.values
+      # @data_line[city] = @check.values.map(&:round(1))
+      @data_line[city] = @check.values.map{ |v| v.round(1)}
     end
     # debugger
     
