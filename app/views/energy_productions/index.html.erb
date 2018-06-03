@@ -36,6 +36,7 @@ var bar_chart = new Chart(ctx_bar, {
 });
 
 var labels_line = gon.labels_line;
+var data_line2 = gon.data_line2;
 var ctx_line = document.getElementById("line_chart").getContext('2d');
 var line_chart = new Chart(ctx_line, {
     type: 'line',
@@ -44,21 +45,21 @@ var line_chart = new Chart(ctx_line, {
         datasets: [
             {
                 label: "London",
-                data: <%= @data_line['London'] %>,
+                data: data_line2['London'],
                 backgroundColor: 'rgba(255, 99, 132, 1.0)',
                 borderColor: 'rgba(255, 50, 132, 1.0)',
                 fill: false
             },
             {
                 label: "Cambridge",
-                data: <%= @data_line['Cambridge'] %>,
+                data: data_line2['Cambridge'],
                 backgroundColor: 'rgba(99, 255, 132, 1.0)',
                 borderColor: 'rgba(50, 255, 132, 1.0)',
                 fill: false
             },
             {
                 label: "Oxford",
-                data: <%= @data_line['Oxford'] %>,
+                data: data_line2['Oxford'],
                 backgroundColor: 'rgba(99, 132, 255, 1.0)',
                 borderColor: 'rgba(50, 132, 255, 1.0)',
                 fill: false
