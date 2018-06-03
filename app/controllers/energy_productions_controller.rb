@@ -46,7 +46,6 @@ class EnergyProductionsController < ApplicationController
     end
     label_list = label_list.sort
     gon.label_list_t = self.class.label_month_converter(@e_p, label_list)
-    @label_list_check = label_list
     
     @energy_production_hash = {}
     # @energy_production_hash['label'] = gon.label_list_t
@@ -58,8 +57,10 @@ class EnergyProductionsController < ApplicationController
     cities.each do |c|
       city_list << c.city
     end
+    city_list = city_list.sort
     
-    count_result = @house.group(:city).count.sort.to_h
+    # count_result = @house.group(:city).count.sort.to_h
+    count_result = @house.group(:city).count
     
     # 棒グラフ用の(x, y)データ
     gon.city_list_t = count_result.keys # 横軸: city
