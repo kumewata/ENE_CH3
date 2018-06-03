@@ -58,7 +58,8 @@ class EnergyProductionsController < ApplicationController
     cities.each do |c|
       city_list << c.city
     end
-    count_result = @house.group(:city).count
+    count_result = @house.group(:city).count.sort.to_h
+    # count_result.to_h ####
     # 棒グラフ用の(x, y)データ
     gon.city_list_t = count_result.keys # 横軸: city
     gon.house_count_t = count_result.values # 横軸: city
@@ -66,7 +67,7 @@ class EnergyProductionsController < ApplicationController
     @house_count_check = count_result.values # 横軸: city
     
     
-    # debugger
+    
     
     city_list.each do |city|
       
