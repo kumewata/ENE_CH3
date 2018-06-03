@@ -1,15 +1,16 @@
 <h1>EnergyProductions#index</h1>
-
 <%= debug(params) if Rails.env.development? %>
 
-<canvas id="myChart" width="450" height="200"></canvas>
+<canvas id="Chart2" width="450" height="200"></canvas>
+<canvas id="Chart1" width="450" height="200"></canvas>
+
 <script>
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
+var labels_t = gon.label_list_t;
+var ctx1 = document.getElementById("Chart1").getContext('2d');
+var Chart1 = new Chart(ctx1, {
     type: 'line',
     data: {
-        labels: <%= @energy_production_hash['label'] %>,
-        // labels: ["2011/7", "8", "9", "10", "11", "12", "2012/1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "2013/1", "2", "3", "4", "5", "6"],
+        labels: labels_t,
         datasets: [
             {
             label: "London",
@@ -37,15 +38,44 @@ var myChart = new Chart(ctx, {
     options: {
         title:  {
           display: true,
-          text: "Energy Production trend by Cities"
+          text: "Energy Production (Average, per house) trend by Cities"
         }
-        
-        // scales: {
-        //     xAxes: [{
-        //         type: 'category',
-        //         labels: <%= @energy_production_hash['label'] %>,
-        //     }]
-        // }
+    }
+});
+
+var labels_t2 = gon.city_list_t;
+var data_t2 = gon.house_count_t;
+var ctx2 = document.getElementById("Chart2").getContext('2d');
+var Chart2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: labels_t2,
+    //   labels: ["1", "2", "3"],
+      datasets: [{
+          data: data_t2,
+          label: "Number of house",
+          //背景色
+          backgroundColor: "rgba(75,192,192,0.4)",
+          //枠線の色
+          borderColor: "rgba(75,192,192,1)",
+      }]
+    },
+    options: {
+        title:  {
+          display: true,
+          text: "Number of house by Cities"
+        },
+        // 軸の設定
+      scales: {
+          //縦軸の設定
+          yAxes: [{
+　　　　　　　　　//目盛りの設定
+              ticks: {
+                  //開始値を0にする
+                  beginAtZero:true,
+              }
+          }]
+      }
     }
 });
 </script>
