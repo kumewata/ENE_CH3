@@ -1,91 +1,82 @@
 class EnergyProductionsController < ApplicationController
   include CommonCalc
   
-  # def make_list(model, column)
-  #   columns = model.select(:column).distinct
-  #   column_list = []
-  #   columns.each do |c|
-  #     column_list << c.send(column)
-  #   end
-    
-  #   return column_list
-  # end
-  
-  def self.label_month_converter(model, labels)
-    year = nil
-    label_map = []
-    
-    labels.each do |label|
-      r = model.find_by(label: label)
-      
-      if year == nil || r.year > year
-        year = r.year
-        label_map << "#{r.year}/#{r.month}"
-        next
-      end
-      
-      label_map << "#{r.month}"
-    end
-    
-    return label_map
-  end
-  
   def index
     
-    # @energy_production = EnergyProduction.all.includes(:house)
-    @energy_production = EnergyProduction.includes(:house)
-    @house = House.all
-    @e_p = EnergyProduction.all
+    energy_production_house = EnergyProduction.includes(:house)
+    energy_production = EnergyProduction.all
     
-    # label(グラフの横軸)の配列を用意
-    labels = @e_p.select(:label).distinct
+    
+    # prepare labels/data for bar chart
+    count_result = House.group(:city).count.sort.to_h
+    
+    # pass labels/data
+    gon.labels_bar = count_result.keys
+    gon.data_bar = count_result.values
+    
+    
+    # prepare labels for line chart
+    labels = energy_production.select(:label).distinct
     
     label_list = []
     labels.each do |l|
       label_list << l.label
     end
     label_list = label_list.sort
-    gon.label_list_t = self.class.label_month_converter(@e_p, label_list)
+    # pass labels
+    gon.labels_line = self.class.label_month_converter(energy_production, label_list)
     
-    @energy_production_hash = {}
-    # @energy_production_hash['label'] = gon.label_list_t
-    @energy_production_hash['data'] = {}
     
-    # グルーピング用にcityの配列を用意
-    cities = @house.select(:city).distinct
+    # prepare city list for grouping
+    cities = House.select(:city).distinct
     city_list = []
     cities.each do |c|
       city_list << c.city
     end
     
-    count_result = @house.group(:city).count.sort.to_h
-    
-    # 棒グラフ用の(x, y)データ
-    gon.city_list_t = count_result.keys # 横軸: city
-    gon.house_count_t = count_result.values # 横軸: city
-    
+    # prepare data for line chart
+    @data_line = {}
     city_list.each do |city|
       
-      epl2 = @energy_production.where(houses: { city: city })
+      eph_h = energy_production_house.where(houses: { city: city })
       
       production = []
       label_list.each do |label|
         
-        epl = epl2.where(label: label)
+        eph_h_l = eph_h.where(label: label)
         
         ep_list = []
-        epl.each do |e|
+        eph_h_l.each do |e|
           ep_list << e.energy_production
         end
-        # epの平均値を得る
+        # calculate average of energy production
         ep_ave = ave_calc(ep_list) 
         production << ep_ave
       end
-      
-      @energy_production_hash['data'][city] = production
-      
+      # pass data
+      @data_line[city] = production
     end
-    gon.energy_production_list_t = @energy_production_hash['data']
     
   end
+  
+  
+  def self.label_month_converter(model, labels)
+    year = nil
+    months = []
+    
+    labels.each do |label|
+      r = model.find_by(label: label)
+      
+      if year == nil || r.year > year
+        year = r.year
+        months << "#{r.year}/#{r.month}"
+        next
+      end
+      
+      months << "#{r.month}"
+    end
+    
+    return months
+  end
+  
 end
